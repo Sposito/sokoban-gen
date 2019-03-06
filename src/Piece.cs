@@ -11,7 +11,7 @@ namespace SokobanGen
     
         public Piece( int x, int y) : base(x, y)
         {
-    
+            kind = Kind.PIECE;
         }
         Vec initialPos;
         bool isMoving = false;

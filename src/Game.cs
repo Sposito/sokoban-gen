@@ -79,8 +79,18 @@ namespace SokobanGen
         }
 
         public void RandomPieces(){
+            var empty =_grid.Where(cell => cell.kind == Kind.EMPTY);
+            Random rnd = new Random();
+            var rndEmpty = empty.OrderBy(x => rnd.Next()).ToArray();
             
-            
+            for(int i = 0; i < width; i++){
+                int x = rndEmpty[i].X;
+                int y = rndEmpty[i].Y;
+                Piece piece = new Piece(x,y);
+                piece.SetGame(this);
+                piece.color = (Color)i;
+                SetGrid(x, y, piece);
+            }     
         }
 
         public bool isBlockedPos(Vec vec){
