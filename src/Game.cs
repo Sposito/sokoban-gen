@@ -10,6 +10,8 @@ namespace SokobanGen
         Cell[] _grid ;
         Cell cache;
         int[] goalYPos;
+
+        Piece[] pieces;
         public Game()
         {
             _grid = new Cell[width * height];
@@ -34,6 +36,20 @@ namespace SokobanGen
            _grid[y * width + x] = cell;
        }
 
+       public void MoveAtRandom(int moves = 1){
+           Random rdm = new Random();
+            if(pieces.Length == 0)
+            {
+                Console.WriteLine("pieces array must be initialized;");
+                return;
+            }
+           for (int i; moves > 0; moves--){
+               pieces[(int)rdm.Next(width)].Move((Direction)rdm.Next(4));
+               Display();
+           }
+       
+       }
+
        readonly Dictionary <Color,ConsoleColor> colorDict = new Dictionary<Color, ConsoleColor>
         {
             [Color.NONE] = Console.ForegroundColor,
@@ -56,7 +72,8 @@ namespace SokobanGen
                 for (int j = 0 ; j < width; j++)
                 {
                     Console.ForegroundColor = colorDict[GetGrid(j,i).color];
-                    Console.Write(" {0} ",GetGrid(j,i).GetChar() );
+                   Console.Write(" {0} ",GetGrid(j,i).GetChar() );
+                   //Console.Write(" {0},{1} ",j,i );
                     Console.ResetColor();
                     Console.Write("│");
                 }
@@ -82,14 +99,14 @@ namespace SokobanGen
             var empty =_grid.Where(cell => cell.kind == Kind.EMPTY);
             Random rnd = new Random();
             var rndEmpty = empty.OrderBy(x => rnd.Next()).ToArray();
-            
+            pieces = new Piece[width];
             for(int i = 0; i < width; i++){
                 int x = rndEmpty[i].X;
                 int y = rndEmpty[i].Y;
-                Piece piece = new Piece(x,y);
-                piece.SetGame(this);
-                piece.color = (Color)i;
-                SetGrid(x, y, piece);
+                pieces[i] = new Piece(x,y);
+                pieces[i].SetGame(this);
+                pieces[i].color = (Color)i;
+                SetGrid(x, y, pieces[i]);
             }     
         }
 

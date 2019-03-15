@@ -6,7 +6,7 @@ namespace SokobanGen
 {
     public enum Color{ RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE, NONE}
     public enum Kind{EMPTY, GOAL, PIECE, OBSTACLE}
-    public enum Direction{UP, DOWN, RIGHT, LEFT}
+    public enum Direction{UP=0, DOWN=1, LEFT=2, RIGHT=3}
     public class Cell
     {
         protected Vec pos;
